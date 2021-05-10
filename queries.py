@@ -1,0 +1,1 @@
+SELECT_CHARACTERS = "SELECT * FROM charactercreator_character;"
