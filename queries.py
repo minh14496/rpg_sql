@@ -3,6 +3,9 @@ SELECT_CHARACTERS = "SELECT * FROM charactercreator_character;"
 # total characters 302
 TOTAL_CHARACTERS = "SELECT COUNT(*) FROM charactercreator_character;"
 
+# total subclass
+TOTAL_SUBCLASS = "SELECT * FROM charactercreator_necromancer;"
+
 # total items 174
 TOTAL_ITEMS = "SELECT COUNT(*) FROM armory_item;"
 
