@@ -141,31 +141,37 @@ INSERT_INTO_charactercreator_mage = """
     %s
   );
 """
+### Titanic ###
+EXTRACT_TITANIC ="""
+  SELECT *
+  FROM titanic
+"""
 
 CREATE_titanic = """
   CREATE TABLE IF NOT EXISTS titanic (
-    index SERIAL PRIMARY KEY,
+    Index SERIAL PRIMARY KEY,
     Survived INT NOT NULL,
     Pclass INT NOT NULL,
-    Name VARCHAR(50) NOT NULL,
+    Name VARCHAR(100) NOT NULL,
     Sex VARCHAR(30) NOT NULL, 
     Age INT NOT NULL,
-    "Siblings_Spouses_Aboard" INT NOT NULL,
-    "Parents_Children_Aboard" INT NOT NULL, 
+    Siblings_Spouses_Aboard INT NOT NULL,
+    Parents_Children_Aboard INT NOT NULL, 
     Fare FLOAT NOT NULL
   );
 """
 
-# COPY_titanic = """
-#   COPY titanic(Survived, Pclass, Name, Sex, Age, 
-#   Siblings_Spouses_Aboard, Parents_Children_Aboard, Fare)
-#   FROM '../data/titanic.csv'
-#   DELIMITER ','
-#   CSV HEADER;
-# """
-
 COPY_titanic = """
+  COPY titanic(Survived, Pclass, Name, Sex, Age, 
+  Siblings_Spouses_Aboard, Parents_Children_Aboard, Fare)
+  FROM '../data/titanic.csv'
+  DELIMITER ','
+  CSV;
+"""
+
+INSERT_INTO_titanic = """
   INSERT INTO titanic(
+    Index,
     Survived, 
     Pclass, 
     Name, 
@@ -182,8 +188,9 @@ COPY_titanic = """
     %s,
     %s,
     %s,
+    %s,
     %s
-    );
+  );
 """
 
 

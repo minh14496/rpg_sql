@@ -19,10 +19,11 @@ df = pd.read_csv(DATA_PATH)
 # print(df.isna().sum().sum())
 # print(df.describe(exclude='number'))
 # after doing some data exploration the data is super clean without NULL
-#  and duplicates entry
+# and duplicates entry
+
 
 # # We want to move charactercreator_character from sqlite --> postgresql
-def create_connections(dbname, user, password, host, sqlite_db='../data/rpg_db.sqlite3'):
+def create_connections(dbname, user, password, host, sqlite_db='../data/titanic.sqlite3'):
     """
     create_connection to sqlite and postgresql
 
@@ -50,10 +51,16 @@ def execute_query(conn, query, read=True):
 
 
 if __name__ == "__main__":
-    pg_conn = create_connections(DBNAME, USER, PASSWORD, HOST)
+    sl_conn, pg_conn = create_connections(DBNAME, USER, PASSWORD, HOST)
+    df.to_sql('titanic', sl_conn)
+    # extract and make a item list
+    titanic_row = execute_query(sl_conn, q.EXTRACT_TITANIC)
     execute_query(
         conn=pg_conn, query=q.CREATE_titanic, read=False
     )
     pg_curs = pg_conn.cursor()
-    pg_curs.execute(q.COPY_titanic, df.iloc[1])
+    #pg_curs.execute(q.COPY_titanic) --> need superuser
+    for row in titanic_row:
+        pg_curs.execute(q.INSERT_INTO_titanic, row)
+        pg_conn.commit()
     pg_curs.close()
