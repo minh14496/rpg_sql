@@ -13,7 +13,7 @@ queries = {
     AVG(Nature), AVG(Theatre), AVG(Shopping), AVG(Picnic) \
     FROM review;"
     }
-# df.to_sql('review', conn)
+df.to_sql('review', conn)
 
 if __name__ == '__main__':
     curs = conn.cursor()
