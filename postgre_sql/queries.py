@@ -148,16 +148,17 @@ EXTRACT_TITANIC ="""
 """
 
 CREATE_titanic = """
+  CREATE TYPE class AS ENUM ('1', '2', '3');
   CREATE TABLE IF NOT EXISTS titanic (
-    Index SERIAL PRIMARY KEY,
-    Survived INT NOT NULL,
-    Pclass INT NOT NULL,
-    Name VARCHAR(100) NOT NULL,
-    Sex VARCHAR(30) NOT NULL, 
-    Age INT NOT NULL,
-    Siblings_Spouses_Aboard INT NOT NULL,
-    Parents_Children_Aboard INT NOT NULL, 
-    Fare FLOAT NOT NULL
+    index SERIAL PRIMARY KEY,
+    survived INT NOT NULL,
+    pclass class NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    sex VARCHAR(30) NOT NULL, 
+    age INT NOT NULL,
+    siblings_Spouses_Aboard INT NOT NULL,
+    parents_Children_Aboard INT NOT NULL, 
+    fare FLOAT NOT NULL
   );
 """
 
@@ -171,15 +172,15 @@ COPY_titanic = """
 
 INSERT_INTO_titanic = """
   INSERT INTO titanic(
-    Index,
-    Survived, 
-    Pclass, 
-    Name, 
-    Sex, 
-    Age,
-    Siblings_Spouses_Aboard, 
-    Parents_Children_Aboard, 
-    Fare
+    index,
+    survived, 
+    pclass, 
+    name, 
+    sex, 
+    age,
+    siblings_Spouses_Aboard, 
+    parents_Children_Aboard, 
+    fare
   ) VALUES (
     %s,
     %s,

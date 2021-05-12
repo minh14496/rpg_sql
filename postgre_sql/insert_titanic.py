@@ -15,6 +15,7 @@ HOST = "queenie.db.elephantsql.com"
 DATA_PATH = '../data/titanic.csv'
 
 df = pd.read_csv(DATA_PATH)
+df['Pclass'] = df['Pclass'].astype(str)
 # print(df.iloc[1])
 # print(df.isna().sum().sum())
 # print(df.describe(exclude='number'))
@@ -52,7 +53,7 @@ def execute_query(conn, query, read=True):
 
 if __name__ == "__main__":
     sl_conn, pg_conn = create_connections(DBNAME, USER, PASSWORD, HOST)
-    df.to_sql('titanic', sl_conn)
+    #df.to_sql('titanic', sl_conn)
     # extract and make a item list
     titanic_row = execute_query(sl_conn, q.EXTRACT_TITANIC)
     execute_query(
