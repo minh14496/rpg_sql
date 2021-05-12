@@ -7,6 +7,9 @@ name = "pypi"
 numpy = "*"
 pandas = "*"
 psycopg2-binary = "*"
+pymongo = "*"
+jupyter = "*"
+dnspython = "*"
 
 [dev-packages]
 
