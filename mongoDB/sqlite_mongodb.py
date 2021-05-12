@@ -54,8 +54,11 @@ def handle_characters(curs, collection):
     #     collection.insert_one(character_doc)
 
 if __name__ == "__main__":
-    mong_client = connect_to_mongo(PASSWORD, DBNAME)
+    mongo_client = connect_to_mongo(PASSWORD, DBNAME)
     sl_conn, sl_curs = connect_to_sldb()
-
+    collection = mongo_client.myFirstDatabase.myFirstDatabase
+    collection.delete_many({})
+    handle_characters(sl_curs, collection)
+    print(list(collection.find()))
     sl_curs.close()
 
