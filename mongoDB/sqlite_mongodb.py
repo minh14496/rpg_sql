@@ -2,7 +2,7 @@
 Pipeline example from sqlite to mongodb
 """
 import sqlite3
-from typing_extensions import ParamSpecArgs
+# from typing_extensions import ParamSpecArgs
 import pymongo
 
 PASSWORD = 'ffkNZJKrtsDO5cxI'
@@ -17,10 +17,35 @@ def connect_to_mongo(password, dbname):
     return client
 
 
-def connect_to_sldb(dbname="../data/rpg_db.sqlite3"):
-    conn = sqlite3.connect(dbname)
+def connect_to_sldb():
+    conn = sqlite3.connect('../data/rpg_db.sqlite3')
     curs = conn.cursor()
     return conn, curs
+
+
+def handle_item(curs):
+    """
+    handle_item Generate a dictionary to hold items for each character
+
+    Args:
+        curs ([type]): [description]
+    """
+    # inventory_char = {'1':[]}
+    weapon_list = curs.execute(
+    f"""SELECT name, item_ptr_id
+        FROM
+        (SELECT * FROM charactercreator_character_inventory as cii
+        LEFT JOIN armory_item as ai
+        ON cii.item_id = ai.item_id) as a
+        LEFT JOIN armory_weapon as aw
+        ON a.item_id=aw.item_ptr_id
+        WHERE character_id=5;
+    """)
+    inventory_char = [weapon[0] for weapon in weapon_list if weapon[1] != None]
+    # for weapon in weapon_list:
+    #     if weapon[1] != None:
+    #         inventory_char['1'].append(weapon[0])
+    return inventory_char
 
 
 def handle_characters(curs, collection):
@@ -29,6 +54,25 @@ def handle_characters(curs, collection):
     """
     character_list = curs.execute("""SELECT * FROM charactercreator_character;""")
     for character in character_list:
+        _, sl_curs = connect_to_sldb() # need to create a different cursor because the main one still 
+                                        # running and it will close the whole thing before it loop
+        # item_list = sl_curs.execute(
+        #     f"""SELECT ai.name FROM charactercreator_character_inventory as cii
+        #         LEFT JOIN armory_item as ai
+        #         ON cii.item_id = ai.item_id
+        #         WHERE character_id={character[0]};
+        #     """)
+        inventory = sl_curs.execute(
+            f"""SELECT name, item_ptr_id
+                FROM
+                (SELECT * FROM charactercreator_character_inventory as cii
+                LEFT JOIN armory_item as ai
+                ON cii.item_id = ai.item_id) as a
+                LEFT JOIN armory_weapon as aw
+                ON a.item_id=aw.item_ptr_id
+                WHERE character_id={character[0]};
+            """).fetchall()
+
         character_doc = {
             "name": character[1],
             "level": character[2],
@@ -38,10 +82,12 @@ def handle_characters(curs, collection):
             "intelligence": character[6],
             "dexterity": character[7],
             "wisdom": character[8],
-            # "items": TODO: Assignment
-            # "weapons": TODO: Assignment
+            "items": [item[0] for item in inventory],
+            "weapons": [item[0] for item in inventory if item[1] != None]
         }
+        sl_curs.close() # close that new cursor
         collection.insert_one(character_doc)
+
 
     # # A codier way to do it
     # schema = curs.execute(
@@ -60,5 +106,7 @@ if __name__ == "__main__":
     collection.delete_many({})
     handle_characters(sl_curs, collection)
     print(list(collection.find()))
+    # table = handle_item(sl_curs)
+    # print(table)
     sl_curs.close()
 
