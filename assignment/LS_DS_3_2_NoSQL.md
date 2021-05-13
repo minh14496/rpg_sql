@@ -1,3 +1,7 @@
+```
+Working with mongodb feels more like working in python language than a different language. Working with it is easier than with SQL right now because I don't use to SQL syntax. Especially the IIF() - if statement in sqlite is so hard to get the result I want.
+```
+
 # NoSQL and Document-oriented databases
 
 NoSQL, no worries? Not exactly, but it's still a powerful approach for some
@@ -63,6 +67,8 @@ mongo_document = {
 
 Then answer the following question (can be a comment in the top of your code or in Markdown) - "How 
 was working with MongoDB different from working with PostgreSQL? What was easier, and what was harder?"
+
+
 
 There is no other required tasks to turn in, but it is suggested to then revisit
 the first two modules, rework/complete things as needed, and just check out with
