@@ -1,5 +1,7 @@
 ```
-Working with mongodb feels more like working in python language than a different language. Working with it is easier than with SQL right now because I don't use to SQL syntax. Especially the IIF() - if statement in sqlite is so hard to get the result I want.
+Working with mongodb feels more like working in python language than a different language. 
+Working with it is easier than with SQL right now because I don't use to SQL syntax. 
+Especially the IIF() - if statement in sqlite is so hard to get the result I want.
 ```
 
 # NoSQL and Document-oriented databases
