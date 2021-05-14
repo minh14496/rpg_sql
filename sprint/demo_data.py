@@ -1,20 +1,19 @@
+from os import read
 import sqlite3
 
 
 demo_value = [('g',3, 9), ('y', 5, 7), ('f', 8, 7)]
+
 CREATE_demo = """
 CREATE TABLE IF NOT EXISTS demo(
-    s VARCHAR(1) NOT NULL PRIMARY KEY,
+    s VARCHAR(5) NOT NULL,
     x INT NOT NULL,
     y INT NOT NULL
 );"""
-INSERT_demo = """
-    INSERT INTO demo(
-        s, x, y
-    ) VALUES (
-        'g', 3, 9
-    );
-"""
+
+row_count = "SELECT COUNT(*) FROM demo;"
+
+xy_at_least_5 = "SELECT"
 
 
 if __name__ == "__main__":
@@ -23,12 +22,10 @@ if __name__ == "__main__":
     curs.execute(CREATE_demo)
     curs.close()
     # curs = conn.cursor()
-    # curs.execute(INSERT_demo)
-    # conn.commit()
+    # for value in demo_value:
+    #     curs.execute('INSERT INTO demo(s, x, y) VALUES (?, ?, ?)', value)
+    #     conn.commit()
     # curs.close()
     curs = conn.cursor()
-    # # for value in demo_value:
-    # #     curs.execute(INSERT_demo, value)
-    curs.execute("SELECT * FROM demo;").fetchall()
-    print(list(curs))
-    curs.close()
+    result = curs.execute(row_count).fetchall()
+    print(result)
