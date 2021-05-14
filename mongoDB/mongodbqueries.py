@@ -57,7 +57,8 @@ def weapon_each_char(collection):
     result = collection.aggregate([
         {
             '$project': {
-                'lenOfItem': {'$size': "$weapons"}
+                'lenOfItem': {'$size': "$weapons"},
+                
             }
         }, {'$limit': 20}
     ])
