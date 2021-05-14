@@ -35,23 +35,39 @@ def total_weapons(collection):
 
 
 def item_each_char(collection):
-    docs = collection.find().limit(20)
-    for doc in docs:
-        print(len(doc['items']))
+    # docs = collection.find().limit(20)
+    # for doc in docs:
+    #     print(len(doc['items']))
+
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfItem': {'$size': "$items"}
+            }
+        }, {'$limit': 20}
+    ])
+    print(list(result))
 
 
 def weapon_each_char(collection):
-    docs = collection.find().limit(20)
-    for doc in docs:
-        print(len(doc['weapons']))
+    # docs = collection.find().limit(20)
+    # for doc in docs:
+    #     print(len(doc['weapons']))
+
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfItem': {'$size': "$weapons"}
+            }
+        }, {'$limit': 20}
+    ])
+    print(list(result))
 
 
 
 if __name__ == "__main__":
     mongo_client = connect_to_mongo(PASSWORD, DBNAME)
-    # sl_conn, sl_curs = connect_to_sldb()
     collection = mongo_client.myFirstDatabase.myFirstDatabase
     # collection.delete_many({})
-    number_char(collection)
-    # print(list(collection.find()))
-    # sl_curs.close()
+    item_each_char(collection)
+    # number_char(collection)
