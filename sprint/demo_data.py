@@ -1,7 +1,7 @@
 import sqlite3
 
 
-demo_value = [('g',3, 9), ('y', 5, 7), ('f', 8, 7)]
+demo_value = [('g', 3, 9), ('y', 5, 7), ('f', 8, 7)]
 
 CREATE_demo = """
 CREATE TABLE IF NOT EXISTS demo(
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS demo(
     y INT NOT NULL
 );"""
 
-row_count = "SELECT COUNT(*) FROM demo;" 
+row_count = "SELECT COUNT(*) FROM demo;"
 
 xy_at_least_5 = "SELECT COUNT(*) FROM demo WHERE x >=5 AND y >=5;"
 
