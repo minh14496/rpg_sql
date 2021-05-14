@@ -1,5 +1,5 @@
 import sqlite3
-from queries import AVG_CHARACTER_WEAPONS
+from queries import AVG_CHARACTER_WEAPONS, AVG_CHARACTER_ITEMS
 
 # STEP 1: Connect to the database
 def connect_to_db(db_name='data/rpg_db.sqlite3'):
@@ -17,4 +17,4 @@ def execute_query(conn, query):
     
 if __name__ == "__main__":
     conn = connect_to_db()
-    print(execute_query(conn, AVG_CHARACTER_WEAPONS))
+    print(execute_query(conn, AVG_CHARACTER_ITEMS))

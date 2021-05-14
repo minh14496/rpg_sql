@@ -150,5 +150,60 @@ def average_weapon_char(collection):
 if __name__ == "__main__":
     mongo_client = connect_to_mongo(PASSWORD, DBNAME)
     collection = mongo_client.myFirstDatabase.myFirstDatabase
-    result = weapon_each_char(collection)
+    result = total_item_in_inventory(collection)
     print(result)
+
+
+# How many passengers survived, and how many died?
+PASSENGER_SURVIVED = """SELECT survived, COUNT(*) 
+FROM titanic
+GROUP BY survived;"""
+
+# How many passengers were in each class?
+PASSENGER_IN_CLASS = """SELECT pclass, COUNT(*) 
+FROM titanic
+GROUP BY pclass;"""
+
+# How many passengers survived/died within each class?
+PASSENGER_SURVIVED_EACH_CLASS = """SELECT survived, pclass, COUNT(*) 
+FROM titanic
+GROUP BY pclass, survived
+ORDER BY survived;"""
+
+# What was the average age of survivors vs nonsurvivors?
+AVERAGE_AGE_SURVIVOR = """SELECT survived, AVG(age) 
+FROM titanic
+GROUP BY survived;"""
+
+# What was the average age of each passenger class?
+AVERAGE_AGE_PCLASS = """SELECT pclass, AVG(age) 
+FROM titanic
+GROUP BY pclass;"""
+
+# What was the average fare by passenger class? By survival?
+AVERAGE_FARE_BY_CLASS_SURVIVED = """SELECT survived, pclass, AVG(fare) 
+FROM titanic
+GROUP BY survived, pclass;"""
+
+# How many siblings/spouses aboard on average, by passenger class? By survival?
+AVERAGE_SIBLINGS_CLASS_SURVIVED = """SELECT survived, pclass, AVG(siblings_spouses_aboard) 
+FROM titanic
+GROUP BY survived, pclass;"""
+
+# How many parents/children aboard on average, by passenger class? By survival?
+AVERAGE_PARENTS_CLASS_SURVIVED = """SELECT survived, pclass, AVG(parents_children_aboard) 
+FROM titanic
+GROUP BY survived, pclass;"""
+
+# Do any passengers have the same name? No row return means that every name different
+ANY_NAME_THE_SAME = """SELECT name, COUNT(*)
+FROM titanic
+GROUP BY name
+HAVING COUNT(*)>1;"""
+
+#How many marriedcouples were aboard the Titanic? Assume that two people 
+# (one `Mr.` and one`Mrs.`) with the same last name and with at least 
+# 1 sibling/spouse aboard are a married couple.
+
+MARRIED_COUPLES = """
+"""
