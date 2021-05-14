@@ -20,25 +20,70 @@ def connect_to_sldb():
 
 
 def number_char(collection):
+    """
+    number_char Count the number of documents in colleciton
+    """
     result = collection.count_documents({})
-    print(result)
+    return result
 
 
 def total_items(collection):
+    """The number of distinct items in inventory 
+    or the total of items in armory_item"""
     result = collection.distinct('items')
-    print(len(list(result)))
+    return len(list(result))
+
+
+def total_item_in_inventory(collection):
+    """The total number of items in inventory"""
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfItem': {'$size': "$items"}
+
+            }
+        }, 
+        {
+            '$group': 
+            {
+                '_id': None, 'sum': {'$sum': '$lenOfItem'}
+            }
+        }
+    ])
+    return list(result)
 
 
 def total_weapons(collection):
+    """The number of distinct weapons in inventory 
+    or the total of items in armory_weapon"""
     result = collection.distinct('weapons')
-    print(len(list(result)))
+    return len(list(result))
+
+
+def total_weapon_in_inventory(collection):
+    """The total number of weapons in inventory"""
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfWeapon': {'$size': "$weapons"}
+
+            }
+        }, 
+        {
+            '$group': 
+            {
+                '_id': None, 'sum': {'$sum': '$lenOfWeapon'}
+            }
+        }
+    ])
+    return list(result)
 
 
 def item_each_char(collection):
     # docs = collection.find().limit(20)
     # for doc in docs:
     #     print(len(doc['items']))
-
+    """The number of items each character have"""
     result = collection.aggregate([
         {
             '$project': {
@@ -46,29 +91,64 @@ def item_each_char(collection):
             }
         }, {'$limit': 20}
     ])
-    print(list(result))
+    return list(result)
 
 
 def weapon_each_char(collection):
     # docs = collection.find().limit(20)
     # for doc in docs:
     #     print(len(doc['weapons']))
-
+    """The number of weapons each character has"""
     result = collection.aggregate([
         {
             '$project': {
-                'lenOfItem': {'$size': "$weapons"},
-                
+                'lenOfWeapon': {'$size': "$weapons"}
+
             }
         }, {'$limit': 20}
     ])
-    print(list(result))
+    return list(result)
 
 
+def average_item_char(collection):
+    """The average number of items each character have"""
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfItem': {'$size': "$items"}
+
+            }
+        }, 
+        {
+            '$group': 
+            {
+                '_id': None, 'avg': {'$avg': '$lenOfItem'}
+            }
+        }
+    ])
+    return list(result)
+
+
+def average_weapon_char(collection):
+    """The average number of weapons each character have"""
+    result = collection.aggregate([
+        {
+            '$project': {
+                'lenOfWeapon': {'$size': "$weapons"}
+
+            }
+        }, 
+        {
+            '$group': 
+            {
+                '_id': None, 'avg': {'$avg': '$lenOfWeapon'}
+            }
+        }
+    ])
+    return list(result)
 
 if __name__ == "__main__":
     mongo_client = connect_to_mongo(PASSWORD, DBNAME)
     collection = mongo_client.myFirstDatabase.myFirstDatabase
-    # collection.delete_many({})
-    item_each_char(collection)
-    # number_char(collection)
+    result = weapon_each_char(collection)
+    print(result)
