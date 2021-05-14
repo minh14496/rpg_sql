@@ -204,6 +204,16 @@ HAVING COUNT(*)>1;"""
 #How many marriedcouples were aboard the Titanic? Assume that two people 
 # (one `Mr.` and one`Mrs.`) with the same last name and with at least 
 # 1 sibling/spouse aboard are a married couple.
+MARRIED_COUPLES = """SELECT name 
+FROM titanic 
+WHERE siblings_spouses_aboard=1;"""
+# conn = pg2.connect(database, user, password, host)
+# cursor = conn.cursor()
+# cursor.execute(MARRIED_COUPLES) <-- list of names where spouse is True
+# names = list(cursor.fetchall())
+# count = 0
+# for name in names:
+#     for name_2 in names:
+#         if name[-1] == name_2[-1]:
+#             count += 1
 
-MARRIED_COUPLES = """
-"""
