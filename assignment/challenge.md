@@ -55,7 +55,7 @@ save them under the following variables names:
 Your code (to reproduce all above steps) should be saved in `demo_data.py` and
 turned in along with the generated SQLite database.
 
-### Part 2 - The Northwind Database
+### Part 2 - The Northwind Database 
 
 Using `sqlite3`, connect to the given `northwind_small.sqlite3` database.
 
